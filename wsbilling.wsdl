@@ -1,0 +1,252 @@
+<?xml version="1.0"?>
+<definitions name="wsbilling"
+ targetNamespace="http://www.f2b.com.br/soap/wsbilling.wsdl"
+ xmlns:tns="http://www.f2b.com.br/soap/wsbilling.wsdl"
+ xmlns:xsd1="http://www.f2b.com.br/soap/wsbilling.xsd"
+ xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+ <types>
+  <schema
+   targetNamespace="http://www.f2b.com.br/soap/wsbilling.xsd"
+   xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="F2bCobranca">
+    <complexType>
+     <sequence>
+      <element name="mensagem">
+       <complexType>
+        <attribute name="data" type="date" use="required"/>
+        <attribute name="numero" type="string" use="required"/>
+        <attribute name="tipo_ws" type="string" use="optional"/>
+       </complexType>
+      </element>
+      <element name="sacador">
+       <complexType>
+        <simpleContent>
+         <extension base="string">
+          <attribute name="conta" type="string" use="required"/>
+         </extension>
+        </simpleContent>
+       </complexType>
+      </element>
+      <element name="cobranca" minOccurs="0" maxOccurs="1">
+       <complexType>
+        <sequence>
+         <element name="demonstrativo" type="string" minOccurs="1" maxOccurs="10"/>
+         <element name="sacador_avalista" type="string" minOccurs="0" maxOccurs="1"/>
+         <element name="desconto" minOccurs="0" maxOccurs="1">
+          <complexType>
+           <attribute name="valor" type="decimal" use="required"/>
+		   <attribute name="tipo_desconto" type="integer" use="required"/>
+           <attribute name="antecedencia" type="integer" use="required"/>
+          </complexType>
+         </element>
+         <element name="multa" minOccurs="0" maxOccurs="1">
+          <complexType>
+           <attribute name="valor" type="decimal" use="optional"/>
+	       <attribute name="tipo_multa" type="integer" use="required"/>
+           <attribute name="valor_dia" type="decimal" use="optional"/>
+	       <attribute name="tipo_multa_dia" type="integer" use="required"/>
+           <attribute name="atraso" type="integer" use="required"/>
+          </complexType>
+         </element>
+        </sequence>
+        <attribute name="valor" type="decimal" use="required"/>
+        <attribute name="tipo_cobranca" type="string" use="optional"/>
+        <attribute name="num_document" type="integer" use="optional"/>
+        <attribute name="cod_banco" type="string" use="optional"/>
+        <attribute name="taxa" type="decimal" use="optional"/>
+        <attribute name="tipo_taxa" type="integer" use="optional"/>
+        <attribute name="tipo_parcelamento" type="string" use="optional"/>
+        <attribute name="num_parcelas" type="integer" use="optional"/>
+       </complexType>
+      </element>
+      <element name="agendamento" minOccurs="1" maxOccurs="1">
+       <complexType>
+        <simpleContent>
+         <extension base="string">
+          <attribute name="vencimento" type="date" use="required"/>
+          <attribute name="ultimo_dia" use="optional">
+           <simpleType>
+            <restriction base="string">
+             <enumeration value="s"/>
+             <enumeration value="n"/>
+            </restriction>
+           </simpleType>
+          </attribute>
+          <attribute name="antecedencia" type="integer" use="optional"/>
+          <attribute name="periodicidade" type="integer" use="optional"/>
+          <attribute name="periodos" type="integer" use="optional"/>
+          <attribute name="sem_vencimento" use="optional">
+           <simpleType>
+            <restriction base="string">
+             <enumeration value="s"/>
+             <enumeration value="n"/>
+            </restriction>
+           </simpleType>
+          </attribute>
+          <attribute name="carne" use="optional">
+           <simpleType>
+            <restriction base="string">
+             <enumeration value="s"/>
+             <enumeration value="n"/>
+            </restriction>
+           </simpleType>
+          </attribute>
+         </extension>
+        </simpleContent>
+       </complexType>
+      </element>
+      <element name="sacado" minOccurs="1" maxOccurs="unbounded">
+       <complexType>
+        <sequence>
+         <element name="nome" type="string"/>
+         <element name="email" type="string" minOccurs="1" maxOccurs="2"/>
+         <element name="endereco" minOccurs="0" maxOccurs="1">
+          <complexType>
+           <attribute name="logradouro" type="string" use="required"/>
+           <attribute name="numero" type="string" use="required"/>
+           <attribute name="complemento" type="string" use="optional"/>
+           <attribute name="bairro" type="string" use="optional"/>
+           <attribute name="cidade" type="string" use="required"/>
+           <attribute name="estado" type="string" use="required"/>
+           <attribute name="cep" type="string" use="required"/>
+          </complexType>
+         </element>
+         <element name="telefone" minOccurs="0" maxOccurs="1">
+          <complexType>
+           <attribute name="ddd" type="integer" use="required"/>
+           <attribute name="numero" type="integer" use="required"/>
+          </complexType>
+         </element>
+	  <element name="telefone_com" minOccurs="0" maxOccurs="1">
+          <complexType>
+           <attribute name="ddd_com" type="integer" use="required"/>
+           <attribute name="numero_com" type="integer" use="required"/>
+          </complexType>
+         </element>
+	  <element name="telefone_cel" minOccurs="0" maxOccurs="1">
+          <complexType>
+           <attribute name="ddd_cel" type="integer" use="required"/>
+           <attribute name="numero_cel" type="integer" use="required"/>
+          </complexType>
+         </element>
+         <element name="cpf" type="string" minOccurs="0" maxOccurs="1"/>
+         <element name="cnpj" type="string" minOccurs="0" maxOccurs="1"/>
+         <element name="observacao" type="string" minOccurs="0" maxOccurs="1"/>
+        </sequence>
+        <attribute name="grupo" type="string" use="optional"/>
+        <attribute name="codigo" type="string" use="optional"/>
+        <attribute name="envio" use="optional">
+         <simpleType>
+          <restriction base="string">
+           <enumeration value="e"/>
+           <enumeration value="p"/>
+           <enumeration value="b"/>
+           <enumeration value="n"/>
+          </restriction>
+         </simpleType>
+        </attribute>
+        <attribute name="atualizar" use="optional">
+         <simpleType>
+          <restriction base="string">
+           <enumeration value="s"/>
+           <enumeration value="n"/>
+          </restriction>
+         </simpleType>
+        </attribute>
+        <attribute name="servicos" use="optional">
+         <simpleType>
+          <restriction base="string">
+           <enumeration value="e"/>
+          </restriction>
+         </simpleType>
+        </attribute>
+       </complexType>
+      </element>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="F2bCobrancaRetorno">
+    <complexType>
+     <sequence>
+      <element name="sacado" minOccurs="0" maxOccurs="unbounded"> 
+       <complexType>
+        <sequence>
+         <element name="nome" type="string"/>
+         <element name="email" type="string" minOccurs="1" maxOccurs="2"/>
+        </sequence>
+        <attribute name="numero" type="integer" use="required"/>
+       </complexType>
+      </element>
+      <element name="agendamento" minOccurs="0" maxOccurs="1"> 
+       <complexType>
+        <simpleContent>
+         <extension base="string">
+          <attribute name="numero" type="integer" use="required"/>
+         </extension>
+        </simpleContent>
+       </complexType>
+      </element>
+      <element name="cobranca" minOccurs="0" maxOccurs="unbounded"> 
+       <complexType>
+        <sequence>
+         <element name="nome" type="string"/>
+         <element name="email" type="string" minOccurs="1" maxOccurs="2"/>
+         <element name="url" type="string"/>
+        </sequence>
+        <attribute name="numero" type="integer" use="required"/>
+        <attribute name="taxa_registro" type="decimal" use="required"/>
+        <attribute name="nosso_numero" type="integer" use="optional"/>
+       </complexType>
+      </element>
+      <element name="carne" minOccurs="0" maxOccurs="unbounded"> 
+       <complexType>
+        <sequence>
+         <element name="url" type="string"/>
+        </sequence>
+        <attribute name="numero" type="integer" use="required"/>
+       </complexType>
+      </element>
+      <element name="log" type="string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </types>
+
+ <message name="GetWSBillingInput">
+  <part name="F2bCobranca" element="xsd1:F2bCobranca"/>
+ </message>
+ <message name="GetWSBillingOutput">
+  <part name="F2bCobrancaRetorno" element="xsd1:F2bCobrancaRetorno"/>
+ </message>
+
+ <portType name="WSBillingPortType">
+  <operation name="RegisterWSBilling">
+   <input message="tns:GetWSBillingInput"/>
+   <output message="tns:GetWSBillingOutput"/>
+  </operation>
+ </portType>
+
+ <binding name="WSBillingSoapBinding" type="tns:WSBillingPortType">
+  <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="RegisterWSBilling">
+   <soap:operation soapAction="http://www.f2b.com.br/WSBilling"/>
+   <input>
+    <soap:body parts="F2bCobranca" use="literal"/>
+   </input>
+   <output>
+    <soap:body parts="F2bCobrancaRetorno" use="literal"/>
+   </output>
+  </operation>
+ </binding>
+
+ <service name="WSBillingService">
+  <documentation>F2b Account Billing Register Service</documentation>
+  <port name="WSBillingPort" binding="tns:WSBillingSoapBinding">
+   <soap:address location="http://www.f2b.com.br/WSBilling"/>
+  </port>
+ </service>
+
+</definitions>
