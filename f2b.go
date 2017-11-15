@@ -17,143 +17,165 @@ var _ time.Time
 var _ xml.Name
 
 type F2bCobranca struct {
-	XMLName xml.Name `xml:"http://www.f2b.com.br/soap/wsbilling.xsd F2bCobranca"`
+	XMLName xml.Name `xml:"m:F2bCobranca"` //`xml:"http://www.f2b.com.br/soap/wsbilling.xsd F2bCobranca"`
+	XmlNS   string   `xml:"xmlns:m,attr"`
 
-	Mensagem struct {
-		Data time.Time `xml:"data,attr,omitempty"`
+	Mensagem Mensagem `xml:"mensagem,omitempty"`
 
-		Numero string `xml:"numero,attr,omitempty"`
+	Sacador Sacador `xml:"sacador,omitempty"`
 
-		Tipo_ws string `xml:"tipo_ws,attr,omitempty"`
-	} `xml:"mensagem,omitempty"`
+	Cobranca Cobranca `xml:"cobranca,omitempty"`
 
-	Sacador struct {
-		Value string
+	Agendamento Agendamento `xml:"agendamento,omitempty"`
 
-		Conta string `xml:"conta,attr,omitempty"`
-	} `xml:"sacador,omitempty"`
+	Sacado []Sacado `xml:"sacado,omitempty"`
+}
 
-	Cobranca struct {
-		Demonstrativo string `xml:"demonstrativo,omitempty"`
+type Mensagem struct {
+	Data string `xml:"data,attr,omitempty"`
 
-		Sacador_avalista string `xml:"sacador_avalista,omitempty"`
+	Numero string `xml:"numero,attr,omitempty"`
 
-		Desconto struct {
-			Valor float64 `xml:"valor,attr,omitempty"`
+	Tipo_ws string `xml:"tipo_ws,attr,omitempty"`
+}
 
-			Tipo_desconto int32 `xml:"tipo_desconto,attr,omitempty"`
+type Sacador struct {
+	Value string `xml:",chardata"`
 
-			Antecedencia int32 `xml:"antecedencia,attr,omitempty"`
-		} `xml:"desconto,omitempty"`
+	Conta string `xml:"conta,attr,omitempty"`
+}
+type Cobranca struct {
+	Demonstrativo []string `xml:"demonstrativo,omitempty"`
 
-		Multa struct {
-			Valor float64 `xml:"valor,attr,omitempty"`
+	Sacador_avalista string `xml:"sacador_avalista,omitempty"`
 
-			Tipo_multa int32 `xml:"tipo_multa,attr,omitempty"`
+	Desconto *Desconto `xml:"desconto,omitempty"`
 
-			Valor_dia float64 `xml:"valor_dia,attr,omitempty"`
+	Multa *Multa `xml:"multa,omitempty"`
 
-			Tipo_multa_dia int32 `xml:"tipo_multa_dia,attr,omitempty"`
+	Valor float64 `xml:"valor,attr,omitempty"`
 
-			Atraso int32 `xml:"atraso,attr,omitempty"`
-		} `xml:"multa,omitempty"`
+	Tipo_cobranca string `xml:"tipo_cobranca,attr,omitempty"`
 
-		Valor float64 `xml:"valor,attr,omitempty"`
+	Num_document int32 `xml:"num_document,attr,omitempty"`
 
-		Tipo_cobranca string `xml:"tipo_cobranca,attr,omitempty"`
+	Cod_banco string `xml:"cod_banco,attr,omitempty"`
 
-		Num_document int32 `xml:"num_document,attr,omitempty"`
+	Taxa float64 `xml:"taxa,attr,omitempty"`
 
-		Cod_banco string `xml:"cod_banco,attr,omitempty"`
+	Tipo_taxa int32 `xml:"tipo_taxa,attr,omitempty"`
 
-		Taxa float64 `xml:"taxa,attr,omitempty"`
+	Tipo_parcelamento string `xml:"tipo_parcelamento,attr,omitempty"`
 
-		Tipo_taxa int32 `xml:"tipo_taxa,attr,omitempty"`
+	Num_parcelas int32 `xml:"num_parcelas,attr,omitempty"`
+}
 
-		Tipo_parcelamento string `xml:"tipo_parcelamento,attr,omitempty"`
+type Multa struct {
+	Valor float64 `xml:"valor,attr,omitempty"`
 
-		Num_parcelas int32 `xml:"num_parcelas,attr,omitempty"`
-	} `xml:"cobranca,omitempty"`
+	Tipo_multa int32 `xml:"tipo_multa,attr,omitempty"`
 
-	Agendamento struct {
-		Value string
+	Valor_dia float64 `xml:"valor_dia,attr,omitempty"`
 
-		Vencimento time.Time `xml:"vencimento,attr,omitempty"`
+	Tipo_multa_dia int32 `xml:"tipo_multa_dia,attr,omitempty"`
 
-		Ultimo_dia string `xml:"ultimo_dia,attr,omitempty"`
+	Atraso int32 `xml:"atraso,attr,omitempty"`
+}
 
-		Antecedencia int32 `xml:"antecedencia,attr,omitempty"`
+type Desconto struct {
+	Valor float64 `xml:"valor,attr,omitempty"`
 
-		Periodicidade int32 `xml:"periodicidade,attr,omitempty"`
+	Tipo_desconto int32 `xml:"tipo_desconto,attr,omitempty"`
 
-		Periodos int32 `xml:"periodos,attr,omitempty"`
+	Antecedencia int32 `xml:"antecedencia,attr,omitempty"`
+}
 
-		Sem_vencimento string `xml:"sem_vencimento,attr,omitempty"`
+type Agendamento struct {
+	Value string `xml:",chardata"`
 
-		Carne string `xml:"carne,attr,omitempty"`
-	} `xml:"agendamento,omitempty"`
+	Vencimento string `xml:"vencimento,attr,omitempty"`
 
-	Sacado []struct {
-		Nome string `xml:"nome,omitempty"`
+	Ultimo_dia string `xml:"ultimo_dia,attr,omitempty"`
 
-		Email string `xml:"email,omitempty"`
+	Antecedencia int32 `xml:"antecedencia,attr,omitempty"`
 
-		Endereco struct {
-			Logradouro string `xml:"logradouro,attr,omitempty"`
+	Periodicidade int32 `xml:"periodicidade,attr,omitempty"`
 
-			Numero string `xml:"numero,attr,omitempty"`
+	Periodos int32 `xml:"periodos,attr,omitempty"`
 
-			Complemento string `xml:"complemento,attr,omitempty"`
+	Sem_vencimento string `xml:"sem_vencimento,attr,omitempty"`
 
-			Bairro string `xml:"bairro,attr,omitempty"`
+	Carne string `xml:"carne,attr,omitempty"`
+}
 
-			Cidade string `xml:"cidade,attr,omitempty"`
+type Sacado struct {
+	Nome string `xml:"nome,omitempty"`
 
-			Estado string `xml:"estado,attr,omitempty"`
+	Email string `xml:"email,omitempty"`
 
-			Cep string `xml:"cep,attr,omitempty"`
-		} `xml:"endereco,omitempty"`
+	Endereco *Endereco `xml:"endereco,omitempty"`
 
-		Telefone struct {
-			Ddd int32 `xml:"ddd,attr,omitempty"`
+	Telefone *Telefone `xml:"telefone,omitempty"`
 
-			Numero int32 `xml:"numero,attr,omitempty"`
-		} `xml:"telefone,omitempty"`
+	Telefone_com *Telefone_com `xml:"telefone_com,omitempty"`
 
-		Telefone_com struct {
-			Ddd_com int32 `xml:"ddd_com,attr,omitempty"`
+	Telefone_cel *Telefone_cel `xml:"telefone_cel,omitempty"`
 
-			Numero_com int32 `xml:"numero_com,attr,omitempty"`
-		} `xml:"telefone_com,omitempty"`
+	Cpf string `xml:"cpf,omitempty"`
 
-		Telefone_cel struct {
-			Ddd_cel int32 `xml:"ddd_cel,attr,omitempty"`
+	Cnpj string `xml:"cnpj,omitempty"`
 
-			Numero_cel int32 `xml:"numero_cel,attr,omitempty"`
-		} `xml:"telefone_cel,omitempty"`
+	Observacao string `xml:"observacao,omitempty"`
 
-		Cpf string `xml:"cpf,omitempty"`
+	Grupo string `xml:"grupo,attr,omitempty"`
 
-		Cnpj string `xml:"cnpj,omitempty"`
+	Codigo string `xml:"codigo,attr,omitempty"`
 
-		Observacao string `xml:"observacao,omitempty"`
+	Envio string `xml:"envio,attr,omitempty"`
 
-		Grupo string `xml:"grupo,attr,omitempty"`
+	Atualizar string `xml:"atualizar,attr,omitempty"`
 
-		Codigo string `xml:"codigo,attr,omitempty"`
+	Servicos string `xml:"servicos,attr,omitempty"`
+}
 
-		Envio string `xml:"envio,attr,omitempty"`
+type Endereco struct {
+	Logradouro string `xml:"logradouro,attr,omitempty"`
 
-		Atualizar string `xml:"atualizar,attr,omitempty"`
+	Numero string `xml:"numero,attr,omitempty"`
 
-		Servicos string `xml:"servicos,attr,omitempty"`
-	} `xml:"sacado,omitempty"`
+	Complemento string `xml:"complemento,attr,omitempty"`
+
+	Bairro string `xml:"bairro,attr,omitempty"`
+
+	Cidade string `xml:"cidade,attr,omitempty"`
+
+	Estado string `xml:"estado,attr,omitempty"`
+
+	Cep string `xml:"cep,attr,omitempty"`
+}
+
+type Telefone struct {
+	Ddd int32 `xml:"ddd,attr,omitempty"`
+
+	Numero int32 `xml:"numero,attr,omitempty"`
+}
+
+type Telefone_com struct {
+	Ddd_com int32 `xml:"ddd_com,attr,omitempty"`
+
+	Numero_com int32 `xml:"numero_com,attr,omitempty"`
+}
+
+type Telefone_cel struct {
+	Ddd_cel int32 `xml:"ddd_cel,attr,omitempty"`
+
+	Numero_cel int32 `xml:"numero_cel,attr,omitempty"`
 }
 
 type F2bCobrancaRetorno struct {
 	XMLName xml.Name `xml:"http://www.f2b.com.br/soap/wsbilling.xsd F2bCobrancaRetorno"`
-
-	Sacado []struct {
+	XmlNS   string   `xml:"xmlns:m,attr"`
+	Sacado  []struct {
 		Nome string `xml:"nome,omitempty"`
 
 		Email string `xml:"email,omitempty"`
@@ -227,6 +249,8 @@ func (service *WSBillingPortType) SetHeader(header interface{}) {
 
 func (service *WSBillingPortType) RegisterWSBilling(request *F2bCobranca) (*F2bCobrancaRetorno, error) {
 	response := new(F2bCobrancaRetorno)
+	response.XmlNS = "http://www.f2b.com.br/soap/wsbilling.xsd"
+
 	err := service.client.Call("http://www.f2b.com.br/WSBilling", request, response)
 	if err != nil {
 		return nil, err
@@ -242,19 +266,21 @@ func dialTimeout(network, addr string) (net.Conn, error) {
 }
 
 type SOAPEnvelope struct {
-	XMLName xml.Name `xml:"http://schemas.xmlsoap.org/soap/envelope/ Envelope"`
+	XMLName xml.Name `xml:"soap-env:Envelope"`
+	XmlNS   string   `xml:"xmlns:soap-env,attr"`
 	Header  *SOAPHeader
 	Body    SOAPBody
 }
 
 type SOAPHeader struct {
-	XMLName xml.Name `xml:"http://schemas.xmlsoap.org/soap/envelope/ Header"`
+	XMLName xml.Name `xml:"soap-env:Header"`
+	XmlNS   string   `xml:"xmlns:soap-env,attr"`
 
 	Items []interface{} `xml:",omitempty"`
 }
 
 type SOAPBody struct {
-	XMLName xml.Name `xml:"http://schemas.xmlsoap.org/soap/envelope/ Body"`
+	XMLName xml.Name `xml:"soap-env:Body"`
 
 	Fault   *SOAPFault  `xml:",omitempty"`
 	Content interface{} `xml:",omitempty"`
@@ -267,6 +293,24 @@ type SOAPFault struct {
 	String string `xml:"faultstring,omitempty"`
 	Actor  string `xml:"faultactor,omitempty"`
 	Detail string `xml:"detail,omitempty"`
+}
+
+type ResponseSOAPEnvelope struct {
+	XMLName xml.Name `xml:"Envelope"`
+	Header  *SOAPHeader
+	Body    ResponseSOAPBody
+}
+type ResponseSOAPHeader struct {
+	XMLName xml.Name `xml:"Header"`
+
+	Items []interface{} `xml:",omitempty"`
+}
+
+type ResponseSOAPBody struct {
+	XMLName xml.Name `xml:"Body"`
+
+	Fault   *SOAPFault  `xml:",omitempty"`
+	Content interface{} `xml:",omitempty"`
 }
 
 const (
@@ -362,7 +406,7 @@ func NewWSSSecurityHeader(user, pass, mustUnderstand string) *WSSSecurityHeader 
 	return hdr
 }
 
-func (b *SOAPBody) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+func (b *ResponseSOAPBody) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	if b.Content == nil {
 		return xml.UnmarshalError("Content must be a pointer to a struct")
 	}
@@ -436,12 +480,14 @@ func (s *SOAPClient) AddHeader(header interface{}) {
 }
 
 func (s *SOAPClient) Call(soapAction string, request, response interface{}) error {
-	envelope := SOAPEnvelope{}
+	envelope := new(SOAPEnvelope) //SOAPEnvelope{}
+	envelope.XmlNS = "http://schemas.xmlsoap.org/soap/envelope/"
 
 	if s.headers != nil && len(s.headers) > 0 {
 		soapHeader := &SOAPHeader{Items: make([]interface{}, len(s.headers))}
 		copy(soapHeader.Items, s.headers)
 		envelope.Header = soapHeader
+		envelope.Header.XmlNS = "http://schemas.xmlsoap.org/soap/envelope/"
 	}
 
 	envelope.Body.Content = request
@@ -496,8 +542,9 @@ func (s *SOAPClient) Call(soapAction string, request, response interface{}) erro
 	}
 
 	log.Println(string(rawbody))
-	respEnvelope := new(SOAPEnvelope)
-	respEnvelope.Body = SOAPBody{Content: response}
+
+	respEnvelope := new(ResponseSOAPEnvelope)
+	respEnvelope.Body = ResponseSOAPBody{Content: response}
 	err = xml.Unmarshal(rawbody, respEnvelope)
 	if err != nil {
 		return err
