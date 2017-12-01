@@ -1,4 +1,4 @@
-# Payment XML API Go client
+# F2B Payment XML API Go client
  
 This is a client for the F2B XML API ([https://www.f2b.com.br/desenvolvedores/](https://www.f2b.com.br/desenvolvedores/)
 
