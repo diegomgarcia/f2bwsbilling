@@ -56,17 +56,17 @@ func main() {
   
   cobranca.Cobranca.Demonstrativo = demonstrativo
 
-  cobranca.Cobranca.Valor = inscricao.ValorEvento()
-  cobranca.Agendamento.Vencimento = time.Now().AddDate(0, 0, 3).Format("2006-01-02")
+  cobranca.Cobranca.Valor = 10 //The value
+  cobranca.Agendamento.Vencimento = time.Now().AddDate(0, 0, 3).Format("2006-01-02") //Add 3 days after today :D
   cobranca.Agendamento.Value = ""
 
   Sacado := f2bwsbilling.Sacado{}
-  Sacado.Grupo = inscricao.NomeEvento()
+  Sacado.Grupo = "Some Group" //This will group all the docs registered
 
-  Sacado.Nome = inscricao.Nome
-  Sacado.Cpf = inscricao.Cpf
-  Sacado.Email = inscricao.Email
-  Sacado.Envio = "e"     //e = email, p = correios, b = ambos, n = nenhum
+  Sacado.Nome = "Diego Garcia"
+  Sacado.Cpf = "" //Brazilian CPF doc
+  Sacado.Email = "nospam@myemail.com"
+  Sacado.Envio = "e"     //e = email, p = correios, b = ambos, n = nenhum
   Sacado.Atualizar = "s" //s = sim, n = não
 
   Sacados := []f2bwsbilling.Sacado{Sacado}
