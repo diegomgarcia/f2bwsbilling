@@ -29,15 +29,15 @@ import (
 
 func main() {
 
-	clientID := os.Getenv("F2B_CLIENTID")
-	if clientID == "" {
-		panic("F2B clientID is missing")
-	}
+  clientID := os.Getenv("F2B_CLIENTID")
+  if clientID == "" {
+     panic("F2B clientID is missing")
+  }
 
-	ownerName := os.Getenv("F2B_OWNERNAME")
-	if secret == "" {
-		panic("F2B ownerName is missing")
-	}
+  ownerName := os.Getenv("F2B_OWNERNAME")
+  if secret == "" {
+     panic("F2B ownerName is missing")
+  }
 
   cobranca := &f2bwsbilling.F2bCobranca{}
   cobranca.XmlNS = "http://www.f2b.com.br/soap/wsbilling.xsd"
